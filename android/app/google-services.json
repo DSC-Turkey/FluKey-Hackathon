@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "867861076783",
+    "project_id": "flukey-hackathon",
+    "storage_bucket": "flukey-hackathon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867861076783:android:c2a274c6255fb001a4dfda",
+        "android_client_info": {
+          "package_name": "com.chtdd.flukey_hackathon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "867861076783-4ioa5tsd157ld9i0km4hf3s6sdju6c4o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKqCJyPRJDNG9ty1D645yGemM2uL54Khc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "867861076783-4ioa5tsd157ld9i0km4hf3s6sdju6c4o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
