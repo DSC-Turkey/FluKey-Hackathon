@@ -24,7 +24,10 @@ dependencies:
   flutter:
     sdk: flutter
   pedantic: ^1.9.0 
-  flutter_neumorphic: 3.0.4+1
+  introduction_screen: ^1.0.7
+  shared_preferences: 0.5.12+4
+  neumorphic: 0.4.0
+  flutter_svg: 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
@@ -45,9 +48,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/icons/
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
