@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "458339235800",
-    "project_id": "flukey-hackathon-d8d71",
-    "storage_bucket": "flukey-hackathon-d8d71.appspot.com"
+    "project_number": "867861076783",
+    "project_id": "flukey-hackathon",
+    "storage_bucket": "flukey-hackathon.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:458339235800:android:51430f06207c45a72ba4ad",
+        "mobilesdk_app_id": "1:867861076783:android:c2a274c6255fb001a4dfda",
         "android_client_info": {
           "package_name": "com.chtdd.flukey_hackathon"
         }
       },
       "oauth_client": [
         {
-          "client_id": "458339235800-fq8ak9tqp4ojij7rhe7of2s79hfb4qb3.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.chtdd.flukey_hackathon",
-            "certificate_hash": "a968d2d6587191d372d0c65596e90aa94c044dc5"
-          }
-        },
-        {
-          "client_id": "458339235800-4husph46edqdmahgk25t7dk9lhsrvm0l.apps.googleusercontent.com",
+          "client_id": "867861076783-4ioa5tsd157ld9i0km4hf3s6sdju6c4o.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDuP0QZCxC2xugeIe3cQTe9kCDAQeZcEOg"
+          "current_key": "AIzaSyBKqCJyPRJDNG9ty1D645yGemM2uL54Khc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "458339235800-4husph46edqdmahgk25t7dk9lhsrvm0l.apps.googleusercontent.com",
+              "client_id": "867861076783-4ioa5tsd157ld9i0km4hf3s6sdju6c4o.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
