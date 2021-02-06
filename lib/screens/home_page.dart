@@ -1,7 +1,7 @@
 import 'package:flukey_hackathon/screens/settings_view/settings_page_view.dart';
 import 'package:flutter/material.dart';
-import 'account_view/account_page_view.dart';
-import 'home_page_view/home_page_view.dart';
+import 'account_screen/account_page_view.dart';
+import 'home_page/home_page_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatelessWidget {

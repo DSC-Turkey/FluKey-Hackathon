@@ -1,4 +1,4 @@
-import 'package:flukey_hackathon/screens/home_page.dart';
+import 'package:flukey_hackathon/screens/login_screen/login_screen_view.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
@@ -13,7 +13,7 @@ class _OnboardingScreenViewState extends State<OnboardingScreenView> {
   void _onIntroEnd(context) {
     Navigator.of(context).pushReplacement(
       //TODO burdan giriş sayfasına gidecek
-      MaterialPageRoute(builder: (_) => HomePage()),
+      MaterialPageRoute(builder: (_) => LoginScreenView()),
     );
   }
 

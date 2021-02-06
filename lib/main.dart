@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'package:flukey_hackathon/screens/home_page.dart';
+import 'package:flukey_hackathon/screens/login_screen/login_screen_view.dart';
 import 'package:flukey_hackathon/screens/onboarding_screen/onboarding_screen_view.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -27,7 +28,7 @@ class SplashState extends State<Splash> {
     var _seen = (prefs.getBool('seen') ?? false);
     if (_seen) {
       //TODO _seen'i değiştirmeyi unutma
-      await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+      await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreenView())); //TODO değiştir homepage yap
     } else {
       await prefs.setBool('seen', true);
       await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => OnboardingScreenView()));
@@ -43,7 +44,7 @@ class SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:CircularProgressIndicator(),
+      body: CircularProgressIndicator(),
     );
   }
 }

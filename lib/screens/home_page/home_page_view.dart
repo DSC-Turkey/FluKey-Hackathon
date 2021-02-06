@@ -1,3 +1,4 @@
+import 'package:flukey_hackathon/screens/event_detail_screen/event_detail_screen_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,26 +12,38 @@ class HomePageView extends StatefulWidget {
 class _HomePageViewState extends State<HomePageView> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ListView(
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
           children: <Widget>[
             buildTopInfos(context),
             buildMidInfos(context),
-            buildEventItem(context),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: 15,
+              itemBuilder: (BuildContext context, int index) {
+                return InkWell(
+                  child: buildEventItem(context),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventDetailScreenView()));
+                  },
+                );
+              },
+            )
           ],
         ),
-      ],
+      ),
     );
   }
 
   Widget buildEventItem(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
+      padding: const EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
       child: NeuCard(
         height: MediaQuery.of(context).size.height * 0.4,
         curveType: CurveType.flat,
-        bevel: 32,
+        bevel: 16,
         color: Colors.green,
         decoration: NeumorphicDecoration(borderRadius: BorderRadius.circular(32), color: Colors.white),
         child: Row(
@@ -146,7 +159,7 @@ class _HomePageViewState extends State<HomePageView> {
       child: NeuCard(
         height: MediaQuery.of(context).size.height * 0.2,
         curveType: CurveType.flat,
-        bevel: 32,
+        bevel: 16,
         color: Colors.white,
         decoration: NeumorphicDecoration(borderRadius: BorderRadius.circular(24), color: Colors.grey.shade100),
         child: Padding(
@@ -207,7 +220,7 @@ class _HomePageViewState extends State<HomePageView> {
       height: MediaQuery.of(context).size.height * 0.15,
       width: MediaQuery.of(context).size.height * 0.2,
       curveType: CurveType.flat,
-      bevel: 32,
+      bevel: 16,
       color: Colors.white,
       decoration: NeumorphicDecoration(borderRadius: BorderRadius.circular(24), color: Colors.grey.shade100),
       child: Padding(
