@@ -11,8 +11,6 @@ class LoginInitial extends LoginState {}
 
 class LoginLoading extends LoginState {}
 
-class LoginSuccess extends LoginState {}
-
 class LoginFailure extends LoginState {
   final String error;
 
@@ -23,4 +21,12 @@ class LoginFailure extends LoginState {
 
   @override
   String toString() => 'LoginFailure { error: $error }';
+}
+
+class SignupSuccess extends LoginState {
+  @override
+  List<Object> get props => [];
+
+  @override
+  String toString() => 'SignupSuccess { }';
 }

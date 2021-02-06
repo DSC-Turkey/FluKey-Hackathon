@@ -1,9 +1,11 @@
+import 'package:flukey_hackathon/model/user_model.dart';
 import 'package:flutter/foundation.dart';
 
-abstract class IAuthenticationService<T> {
-  Future<T> signIn({@required String email, @required String password});
-  Future<T> signUp({@required String email, @required String password});
-  Future<T> singOut();
-  Future<T> singInWithGoogle({String email, String password});
-  T isUserSignedIn();
+abstract class IAuthenticationService {
+  Future<UserModel> signIn({@required String email, @required String password});
+  Future<UserModel> signUp({@required String email, @required String password});
+  Future<void> logOut();
+  Future<UserModel> singInWithGoogle();
+  bool isUserSignedIn();
+  Future<UserModel> getUser();
 }

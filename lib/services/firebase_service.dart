@@ -1,5 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flukey_hackathon/common/auth_exception.dart';
+import 'package:flukey_hackathon/model/user_model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+import '../common/extensions.dart';
 
 import 'authentication_service.dart';
 
@@ -7,61 +11,79 @@ class FirebaseAuthService extends IAuthenticationService {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
 
-  FirebaseAuthService(this._firebaseAuth, this._googleSignIn);
+  FirebaseAuthService(FirebaseAuth firebaseAuth, GoogleSignIn googleSignIn)
+      : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
+        _googleSignIn = googleSignIn ?? GoogleSignIn.standard();
 
   @override
-  Future<void> signIn({String email, String password}) async {
+  Future<UserModel> signIn({String email, String password}) async {
     try {
-      var userCredential = await _firebaseAuth.signInWithEmailAndPassword(
+      final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
 
-      return userCredential.user.uid;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
-    } catch (e) {
-      print(e);
+      //TODO 1: map UserModel with fromJson() from User
+      return userCredential.user.toUser();
+    } on Exception {
+      throw LogInWithEmailFailure();
     }
   }
 
   @override
-  Future<void> signUp({String email, String password}) async {
+  Future<UserModel> signUp(
+      {String email,
+      String password,
+      String firstName,
+      String lastName}) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
-    } catch (e) {
-      print(e);
+
+      //TODO 2: map UserModel with fromJson() from User
+      return userCredential.user
+          .toUser(firstName: firstName, lastName: lastName);
+    } on Exception {
+      throw SignUpFailure();
     }
   }
 
   @override
-  Future<UserCredential> singInWithGoogle(
-      {String email, String password}) async {
-    var googleSignInAccount = await _googleSignIn.signIn();
+  Future<UserModel> singInWithGoogle() async {
+    try {
+      final googleSignInAccount = await _googleSignIn.signIn();
 
-    var googleAuth = await googleSignInAccount.authentication;
+      final googleAuth = await googleSignInAccount.authentication;
 
-    var credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
-    return await _firebaseAuth.signInWithCredential(credential);
+      final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+      final userCredential =
+          await _firebaseAuth.signInWithCredential(credential);
+
+      //TODO 3: map UserModel with fromJson() from User
+      return userCredential.user.toUser();
+    } on Exception {
+      throw LogInWithGoogleFailure();
+    }
   }
 
   @override
-  Future<void> singOut({String email, String password}) async {
-    await _firebaseAuth.signOut();
+  Future<void> logOut({String email, String password}) async {
+    try {
+      await Future.wait([
+        _firebaseAuth.signOut(),
+        _googleSignIn.signOut(),
+      ]);
+    } on Exception {
+      throw LogOutFailure();
+    }
   }
 
   @override
   bool isUserSignedIn() {
     return _firebaseAuth.currentUser == null ? false : true;
+  }
+
+  @override
+  Future<UserModel> getUser() async {
+    return await _firebaseAuth.currentUser.toUser();
   }
 }
