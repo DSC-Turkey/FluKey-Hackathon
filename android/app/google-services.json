@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "458339235800",
+    "project_id": "flukey-hackathon-d8d71",
+    "storage_bucket": "flukey-hackathon-d8d71.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458339235800:android:51430f06207c45a72ba4ad",
+        "android_client_info": {
+          "package_name": "com.chtdd.flukey_hackathon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "458339235800-fq8ak9tqp4ojij7rhe7of2s79hfb4qb3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chtdd.flukey_hackathon",
+            "certificate_hash": "a968d2d6587191d372d0c65596e90aa94c044dc5"
+          }
+        },
+        {
+          "client_id": "458339235800-4husph46edqdmahgk25t7dk9lhsrvm0l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuP0QZCxC2xugeIe3cQTe9kCDAQeZcEOg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "458339235800-4husph46edqdmahgk25t7dk9lhsrvm0l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
