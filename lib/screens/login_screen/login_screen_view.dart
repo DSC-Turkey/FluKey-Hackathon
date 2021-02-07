@@ -64,162 +64,177 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                     SizedBox(
                       height: 30,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 32),
-                      child: NeuCard(
-                        alignment: Alignment.center,
-                        height: SizeExtension(context).dynamicHeight(0.08),
-                        width: SizeExtension(context).dynamicWidth(0.9),
-                        curveType: CurveType.flat,
-                        color: Colors.white,
-                        decoration: NeumorphicDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                            color: Color.fromRGBO(238, 238, 238, 1)),
-                        child: TextFormField(
-                          controller: _emailController,
-                          textAlign: TextAlign.center,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                              hintText: 'email',
-                              focusColor: Colors.black,
-                              border: InputBorder.none),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 32, right: 32, top: 16),
-                      child: NeuCard(
-                        alignment: Alignment.center,
-                        height: SizeExtension(context).dynamicHeight(0.08),
-                        width: SizeExtension(context).dynamicWidth(0.9),
-                        curveType: CurveType.flat,
-                        color: Colors.white,
-                        decoration: NeumorphicDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                            color: Color.fromRGBO(238, 238, 238, 1)),
-                        child: TextFormField(
-                          controller: _passwordController,
-                          textAlign: TextAlign.center,
-                          obscureText: true,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                              hintText: 'password',
-                              focusColor: Colors.black,
-                              border: InputBorder.none),
-                        ),
-                      ),
-                    ),
+                    buildNameTextField(context),
+                    buildPasswordTextField(context),
                     SizedBox(
                       height: 20,
                     ),
-                    Container(
-                      height: SizeExtension(context).dynamicHeight(0.3),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 32, right: 32, top: 16),
-                            child: InkWell(
-                              child: NeuCard(
-                                alignment: Alignment.center,
-                                height:
-                                    SizeExtension(context).dynamicHeight(0.05),
-                                width: SizeExtension(context).dynamicWidth(0.3),
-                                curveType: CurveType.flat,
-                                color: Colors.white,
-                                decoration: NeumorphicDecoration(
-                                    borderRadius: BorderRadius.circular(24),
-                                    color: Colors.grey.shade200),
-                                child: Text(
-                                  'Submit',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              onTap: () {
-                                context.read<LoginBloc>().add(
-                                    LoginButtonPressed(
-                                        email: _emailController.text,
-                                        password: _passwordController.text));
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 32),
-                            child: InkWell(
-                              child: NeuCard(
-                                height: 32,
-                                width: 150,
-                                curveType: CurveType.concave,
-                                bevel: 12,
-                                decoration: NeumorphicDecoration(
-                                    borderRadius: BorderRadius.circular(32),
-                                    color: Colors.grey.shade100),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Text(
-                                      'Login with Google',
-                                      style: TextStyle(color: Colors.black54),
-                                    ),
-                                    Icon(
-                                      FontAwesome.google,
-                                      color: Colors.black54,
-                                      size: 20,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              onTap: () {
-                                debugPrint('google ile giriş yapıldı');
-                                context
-                                    .read<LoginBloc>()
-                                    .add(GoogleButtonPressed());
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 32),
-                            child: InkWell(
-                              child: NeuCard(
-                                alignment: Alignment.center,
-                                height:
-                                    SizeExtension(context).dynamicHeight(0.05),
-                                width: SizeExtension(context).dynamicWidth(0.3),
-                                curveType: CurveType.flat,
-                                color: Colors.white,
-                                decoration: NeumorphicDecoration(
-                                    borderRadius: BorderRadius.circular(24),
-                                    color: Color.fromRGBO(238, 238, 238, 1)),
-                                child: Text(
-                                  'Create Account',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                              onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        SignUpScreen())); //TODO
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
+                    buildFormActionButtons(context)
                   ],
                 );
               },
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Container buildFormActionButtons(BuildContext context) {
+    return Container(
+      height: SizeExtension(context).dynamicHeight(0.3),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          buildSubmitButton(context),
+          buildGoogleSignInButton(context),
+          buildCreateAccountButton(context),
+        ],
+      ),
+    );
+  }
+
+  Padding buildCreateAccountButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: InkWell(
+        child: NeuCard(
+          alignment: Alignment.center,
+          height: SizeExtension(context).dynamicHeight(0.05),
+          width: SizeExtension(context).dynamicWidth(0.3),
+          curveType: CurveType.flat,
+          color: Colors.white,
+          decoration: NeumorphicDecoration(
+              borderRadius: BorderRadius.circular(24),
+              color: Color.fromRGBO(238, 238, 238, 1)),
+          child: Text(
+            'Create Account',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        onTap: () {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => SignUpScreen())); //TODO
+        },
+      ),
+    );
+  }
+
+  Padding buildGoogleSignInButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: InkWell(
+        child: NeuCard(
+          height: 32,
+          width: 150,
+          curveType: CurveType.concave,
+          bevel: 12,
+          decoration: NeumorphicDecoration(
+              borderRadius: BorderRadius.circular(32),
+              color: Colors.grey.shade100),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                'Login with Google',
+                style: TextStyle(color: Colors.black54),
+              ),
+              Icon(
+                FontAwesome.google,
+                color: Colors.black54,
+                size: 20,
+              ),
+            ],
+          ),
+        ),
+        onTap: () {
+          debugPrint('google ile giriş yapıldı');
+          context.read<LoginBloc>().add(GoogleButtonPressed());
+        },
+      ),
+    );
+  }
+
+  Padding buildSubmitButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 32, right: 32, top: 16),
+      child: InkWell(
+        child: NeuCard(
+          alignment: Alignment.center,
+          height: SizeExtension(context).dynamicHeight(0.05),
+          width: SizeExtension(context).dynamicWidth(0.3),
+          curveType: CurveType.flat,
+          color: Colors.white,
+          decoration: NeumorphicDecoration(
+              borderRadius: BorderRadius.circular(24),
+              color: Colors.grey.shade200),
+          child: Text(
+            'Submit',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        onTap: () {
+          context.read<LoginBloc>().add(LoginButtonPressed(
+              email: _emailController.text,
+              password: _passwordController.text));
+        },
+      ),
+    );
+  }
+
+  Padding buildPasswordTextField(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 32, right: 32, top: 16),
+      child: NeuCard(
+        alignment: Alignment.center,
+        height: SizeExtension(context).dynamicHeight(0.08),
+        width: SizeExtension(context).dynamicWidth(0.9),
+        curveType: CurveType.flat,
+        color: Colors.white,
+        decoration: NeumorphicDecoration(
+            borderRadius: BorderRadius.circular(24),
+            color: Color.fromRGBO(238, 238, 238, 1)),
+        child: TextFormField(
+          controller: _passwordController,
+          textAlign: TextAlign.center,
+          obscureText: true,
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(
+              hintText: 'password',
+              focusColor: Colors.black,
+              border: InputBorder.none),
+        ),
+      ),
+    );
+  }
+
+  Padding buildNameTextField(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: NeuCard(
+        alignment: Alignment.center,
+        height: SizeExtension(context).dynamicHeight(0.08),
+        width: SizeExtension(context).dynamicWidth(0.9),
+        curveType: CurveType.flat,
+        color: Colors.white,
+        decoration: NeumorphicDecoration(
+            borderRadius: BorderRadius.circular(24),
+            color: Color.fromRGBO(238, 238, 238, 1)),
+        child: TextFormField(
+          controller: _emailController,
+          textAlign: TextAlign.center,
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+              hintText: 'email',
+              focusColor: Colors.black,
+              border: InputBorder.none),
         ),
       ),
     );

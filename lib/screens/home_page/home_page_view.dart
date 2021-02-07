@@ -1,11 +1,17 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flukey_hackathon/bloc/authentication/authentication_bloc.dart';
+import 'package:flukey_hackathon/bloc/login/login_bloc.dart';
 import 'package:flukey_hackathon/common/extensions.dart';
 import 'package:flukey_hackathon/model/event_model.dart';
 import 'package:flukey_hackathon/screens/event_detail_screen/event_detail_screen_view.dart';
+import 'package:flukey_hackathon/services/firebase_service.dart';
+import 'package:flukey_hackathon/services/service_locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:neumorphic/neumorphic.dart';
 
@@ -17,6 +23,8 @@ class HomePageView extends StatefulWidget {
 class _HomePageViewState extends State<HomePageView> {
   List<EventDetail> eventList = <EventDetail>[];
   final String localJsonPath = 'assets/data/dummy_datas.json';
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> loadLocalJson() async {
     var data = await rootBundle.loadString(localJsonPath);
@@ -39,7 +47,11 @@ class _HomePageViewState extends State<HomePageView> {
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(
-            children: <Widget>[buildTopInfos(context), buildMidInfos(context), listItems(context, eventList)],
+            children: <Widget>[
+              buildTopInfos(context),
+              buildMidInfos(context),
+              listItems(context, eventList)
+            ],
           ),
         ),
       ),
@@ -55,7 +67,8 @@ class _HomePageViewState extends State<HomePageView> {
         return InkWell(
           child: buildEventItem(context, eventList[index]),
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventDetailScreenView(eventList[index])));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => EventDetailScreenView(eventList[index])));
           },
         );
       },
@@ -70,7 +83,8 @@ class _HomePageViewState extends State<HomePageView> {
         curveType: CurveType.flat,
         bevel: 16,
         color: Colors.green,
-        decoration: NeumorphicDecoration(borderRadius: BorderRadius.circular(32), color: Colors.white),
+        decoration: NeumorphicDecoration(
+            borderRadius: BorderRadius.circular(32), color: Colors.white),
         child: Row(
           children: [
             ClipRRect(
@@ -98,7 +112,10 @@ class _HomePageViewState extends State<HomePageView> {
                       maxLines: 6,
                       overflow: TextOverflow.ellipsis,
                       softWrap: false,
-                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16.0),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.0),
                     ),
                   ),
                   SizedBox(
@@ -108,7 +125,10 @@ class _HomePageViewState extends State<HomePageView> {
                       maxLines: 6,
                       overflow: TextOverflow.ellipsis,
                       softWrap: false,
-                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 12.0),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12.0),
                     ),
                   ),
                   Column(
@@ -136,7 +156,9 @@ class _HomePageViewState extends State<HomePageView> {
                             width: 24,
                           ),
                           SizedBox(width: 3),
-                          eventDetail.ticket == 0 ? Text('Free') : Text('${eventDetail.ticket} Ticket'),
+                          eventDetail.ticket == 0
+                              ? Text('Free')
+                              : Text('${eventDetail.ticket} Ticket'),
                         ],
                       ),
                       SizedBox(
@@ -186,22 +208,24 @@ class _HomePageViewState extends State<HomePageView> {
         curveType: CurveType.flat,
         bevel: 16,
         color: Colors.white,
-        decoration: NeumorphicDecoration(borderRadius: BorderRadius.circular(24), color: Colors.grey.shade100),
+        decoration: NeumorphicDecoration(
+            borderRadius: BorderRadius.circular(24),
+            color: Colors.grey.shade100),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Cihat İ.\nDede',
+                _auth.currentUser.displayName ?? "Cihat İ. Dede",
                 textAlign: TextAlign.left,
-                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 32),
+                style: Theme.of(context).textTheme.headline6,
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   CircleAvatar(
-                    backgroundImage: NetworkImage('https://pbs.twimg.com/profile_images/1334383913788203008/ePY4Pua-_400x400.jpg'),
+                    backgroundImage: NetworkImage(_auth.currentUser.photoURL),
                     radius: 36,
                   ),
                   Row(
@@ -213,7 +237,8 @@ class _HomePageViewState extends State<HomePageView> {
                       ),
                       Text(
                         '  2',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 24),
                       )
                     ],
                   ),
@@ -232,14 +257,17 @@ class _HomePageViewState extends State<HomePageView> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          newCardFirst(context, 'SOLD\nTICKET', 5600, 'assets/icons/increase.svg'),
-          newCardFirst(context, 'HELPED\nPEOPLE', 1234, 'assets/icons/influencer.svg'), //TODO burdaki iconu değiştir
+          newCardFirst(
+              context, 'SOLD\nTICKET', 5600, 'assets/icons/increase.svg'),
+          newCardFirst(context, 'HELPED\nPEOPLE', 1234,
+              'assets/icons/influencer.svg'), //TODO burdaki iconu değiştir
         ],
       ),
     );
   }
 
-  NeuCard newCardFirst(BuildContext context, String title, int ticketCount, String assetPath) {
+  NeuCard newCardFirst(
+      BuildContext context, String title, int ticketCount, String assetPath) {
     return NeuCard(
       alignment: Alignment.center,
       height: SizeExtension(context).dynamicHeight(0.15),
@@ -247,7 +275,8 @@ class _HomePageViewState extends State<HomePageView> {
       curveType: CurveType.flat,
       bevel: 16,
       color: Colors.white,
-      decoration: NeumorphicDecoration(borderRadius: BorderRadius.circular(24), color: Colors.grey.shade100),
+      decoration: NeumorphicDecoration(
+          borderRadius: BorderRadius.circular(24), color: Colors.grey.shade100),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

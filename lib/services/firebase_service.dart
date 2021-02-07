@@ -80,6 +80,6 @@ class FirebaseAuthService extends IAuthenticationService {
 
   @override
   Future<UserModel> getUser() async {
-    return await _firebaseAuth.currentUser.toUser();
+    return _firebaseAuth.currentUser.toUser();
   }
 }

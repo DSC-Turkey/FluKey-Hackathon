@@ -1,13 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flukey_hackathon/bloc/login/login_bloc.dart';
-import 'package:flukey_hackathon/bloc/login/login_bloc.dart';
+import 'package:flukey_hackathon/services/firebase_service.dart';
+import 'package:flukey_hackathon/services/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:neumorphic/neumorphic.dart';
 import '../../common/extensions.dart';
+
 class AccountPageView extends StatefulWidget {
-
-
   @override
   _AccountPageViewState createState() => _AccountPageViewState();
 }
@@ -15,27 +16,32 @@ class AccountPageView extends StatefulWidget {
 class _AccountPageViewState extends State<AccountPageView> {
   int ticketCount = 1;
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(backgroundColor: Colors.transparent,
-        title: Container(
-          padding: PaddingExtension(context).paddingAllMedium,
-          child: IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              context.read<LoginBloc>().add(LogoutButtonPressed());
-            },
-          ),
-        ),
+        appBar: AppBar(
+          toolbarHeight: SizeExtension(context).dynamicHeight(.08),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          actions: [
+            Container(
+              padding: PaddingExtension(context).paddingAllMedium,
+              child: IconButton(
+                color: Colors.black.withOpacity(.8),
+                icon: Icon(Icons.logout),
+                onPressed: () {
+                  context.read<LoginBloc>().add(LogoutButtonPressed());
+                },
+              ),
+            ),
+          ],
         ),
         body: SingleChildScrollView(
           child: Column(
-            children: <Widget>[
-
-
-              buildUserDetails(context)],
+            children: <Widget>[buildUserDetails(context)],
           ),
         ),
       ),
@@ -49,7 +55,9 @@ class _AccountPageViewState extends State<AccountPageView> {
         height: SizeExtension(context).dynamicHeight(0.85),
         curveType: CurveType.flat,
         bevel: 16,
-        decoration: NeumorphicDecoration(borderRadius: BorderRadius.circular(32), color: Colors.grey.shade100),
+        decoration: NeumorphicDecoration(
+            borderRadius: BorderRadius.circular(32),
+            color: Colors.grey.shade100),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -66,7 +74,9 @@ class _AccountPageViewState extends State<AccountPageView> {
               height: SizeExtension(context).dynamicHeight(0.34),
               curveType: CurveType.flat,
               bevel: 8,
-              decoration: NeumorphicDecoration(borderRadius: BorderRadius.circular(16), color: Colors.grey.shade100),
+              decoration: NeumorphicDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: Colors.grey.shade100),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -84,7 +94,8 @@ class _AccountPageViewState extends State<AccountPageView> {
                     SizedBox(
                       height: 30,
                     ),
-                    bottomBuyElements(context),
+                    Flexible(
+                        fit: FlexFit.loose, child: bottomBuyElements(context)),
                   ],
                 ),
               ),
@@ -109,7 +120,9 @@ class _AccountPageViewState extends State<AccountPageView> {
             height: SizeExtension(context).dynamicWidth(0.08),
             curveType: CurveType.emboss,
             bevel: 8,
-            decoration: NeumorphicDecoration(borderRadius: BorderRadius.circular(16), color: Colors.greenAccent),
+            decoration: NeumorphicDecoration(
+                borderRadius: BorderRadius.circular(16),
+                color: Colors.greenAccent),
             child: Center(
               heightFactor: 1,
               child: Text(
@@ -137,7 +150,10 @@ class _AccountPageViewState extends State<AccountPageView> {
             'By using tickets you can attend different variety of lectures and presentations while helping others because more than %90 of the income goes to helpless people.',
             overflow: TextOverflow.clip,
             maxLines: 25,
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w900, fontSize: 14.0),
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w900,
+                fontSize: 14.0),
           ),
         ),
         SizedBox(
@@ -150,7 +166,9 @@ class _AccountPageViewState extends State<AccountPageView> {
               child: NeuCard(
                 curveType: CurveType.flat,
                 bevel: 8,
-                decoration: NeumorphicDecoration(borderRadius: BorderRadius.circular(64), color: Colors.grey.shade200),
+                decoration: NeumorphicDecoration(
+                    borderRadius: BorderRadius.circular(64),
+                    color: Colors.grey.shade200),
                 child: Icon(Icons.add),
               ),
               onTap: () {
@@ -173,7 +191,9 @@ class _AccountPageViewState extends State<AccountPageView> {
               child: NeuCard(
                 curveType: CurveType.flat,
                 bevel: 8,
-                decoration: NeumorphicDecoration(borderRadius: BorderRadius.circular(64), color: Colors.grey.shade200),
+                decoration: NeumorphicDecoration(
+                    borderRadius: BorderRadius.circular(64),
+                    color: Colors.grey.shade200),
                 child: Icon(Icons.remove),
               ),
               onTap: () {
@@ -206,8 +226,8 @@ class _AccountPageViewState extends State<AccountPageView> {
         Column(
           children: [
             Text(
-              'Cihat İ. Dede',
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
+              _auth.currentUser.displayName ?? "Cihat İ. Dede",
+              style: Theme.of(context).textTheme.headline6,
             ),
             SizedBox(
               height: SizeExtension(context).dynamicHeight(0.02),
@@ -217,7 +237,9 @@ class _AccountPageViewState extends State<AccountPageView> {
               height: SizeExtension(context).dynamicHeight(0.3),
               curveType: CurveType.flat,
               bevel: 8,
-              decoration: NeumorphicDecoration(borderRadius: BorderRadius.circular(16), color: Colors.grey.shade100),
+              decoration: NeumorphicDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: Colors.grey.shade100),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -226,15 +248,18 @@ class _AccountPageViewState extends State<AccountPageView> {
                   children: [
                     Text(
                       'Afforded',
-                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
                     ),
                     Text(
                       '14',
-                      style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
+                      style:
+                          TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
                     ),
                     Text(
                       "people's daily expenses",
-                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
                     ),
                     SizedBox(
                       height: SizeExtension(context).dynamicHeight(0.02),
@@ -271,11 +296,13 @@ class _AccountPageViewState extends State<AccountPageView> {
         NeuCard(
           curveType: CurveType.convex,
           bevel: 8,
-          decoration: NeumorphicDecoration(borderRadius: BorderRadius.circular(64), color: Colors.grey.shade400),
+          decoration: NeumorphicDecoration(
+              borderRadius: BorderRadius.circular(64),
+              color: Colors.grey.shade400),
           child: CircleAvatar(
             radius: 60,
             backgroundColor: Colors.white,
-            backgroundImage: NetworkImage('https://pbs.twimg.com/profile_images/1334383913788203008/ePY4Pua-_400x400.jpg'),
+            backgroundImage: NetworkImage(_auth.currentUser.photoURL),
           ),
         ),
         SizedBox(
@@ -286,7 +313,9 @@ class _AccountPageViewState extends State<AccountPageView> {
           height: SizeExtension(context).dynamicHeight(0.07),
           curveType: CurveType.flat,
           bevel: 8,
-          decoration: NeumorphicDecoration(borderRadius: BorderRadius.circular(16), color: Colors.grey.shade100),
+          decoration: NeumorphicDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: Colors.grey.shade100),
           child: Column(
             children: [
               Row(
@@ -325,7 +354,9 @@ class _AccountPageViewState extends State<AccountPageView> {
         height: SizeExtension(context).dynamicHeight(0.06),
         curveType: CurveType.flat,
         bevel: 4,
-        decoration: NeumorphicDecoration(borderRadius: BorderRadius.circular(16), color: Colors.grey.shade100),
+        decoration: NeumorphicDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: Colors.grey.shade100),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

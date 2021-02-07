@@ -48,7 +48,8 @@ class _OnboardingScreenViewState extends State<OnboardingScreenView> {
             style: TextStyle(color: Colors.black, fontSize: 30),
             textAlign: TextAlign.center,
           ),
-          body: 'Education is the most powerful weapon which you can use to change the world.\n\nNelson Mandela',
+          body:
+              'Education is the most powerful weapon which you can use to change the world.\n\nNelson Mandela',
           image: _buildImage('education'),
           decoration: pageDecoration,
         ),
@@ -77,7 +78,8 @@ class _OnboardingScreenViewState extends State<OnboardingScreenView> {
         Icons.arrow_forward,
         color: Colors.black,
       ),
-      done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black)),
+      done: const Text('Done',
+          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black)),
       dotsDecorator: const DotsDecorator(
         size: Size(10.0, 10.0),
         color: Color(0xFFBDBDBD),
