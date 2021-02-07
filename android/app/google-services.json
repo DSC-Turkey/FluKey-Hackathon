@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "867861076783-go12o7q4ost49gbsi7j01aqljgb6hr46.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chtdd.flukey_hackathon",
+            "certificate_hash": "59bb69b3d410934cff3b9833a639a0c27bfc5002"
+          }
+        },
+        {
           "client_id": "867861076783-4ioa5tsd157ld9i0km4hf3s6sdju6c4o.apps.googleusercontent.com",
           "client_type": 3
         }

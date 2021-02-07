@@ -8,12 +8,8 @@ import '../common/extensions.dart';
 import 'authentication_service.dart';
 
 class FirebaseAuthService extends IAuthenticationService {
-  final FirebaseAuth _firebaseAuth;
-  final GoogleSignIn _googleSignIn;
-
-  FirebaseAuthService(FirebaseAuth firebaseAuth, GoogleSignIn googleSignIn)
-      : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
-        _googleSignIn = googleSignIn ?? GoogleSignIn.standard();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn.standard();
 
   @override
   Future<UserModel> signIn({String email, String password}) async {
