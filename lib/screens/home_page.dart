@@ -12,9 +12,11 @@ class HomePage extends StatelessWidget {
       home: DefaultTabController(
         initialIndex: 1,
         length: 3,
-        child: Scaffold(
-          bottomNavigationBar: buildBottomTabBar(),
-          body: tabBarBody(),
+        child: SafeArea(
+          child: Scaffold(
+            bottomNavigationBar: buildBottomTabBar(),
+            body: tabBarBody(),
+          ),
         ),
       ),
     );
@@ -34,6 +36,7 @@ class HomePage extends StatelessWidget {
     return BottomAppBar(
       elevation: 0,
       child: TabBar(
+        indicatorColor: Colors.orange,
         tabs: [
           Tab(
             icon: SvgPicture.asset(
@@ -50,10 +53,10 @@ class HomePage extends StatelessWidget {
             ),
           ),
           Tab(
-            icon: Icon(
-              Icons.account_box_outlined,
-              color: Colors.green,
-              size: 30,
+            icon: SvgPicture.asset(
+              'assets/icons/user.svg',
+              height: 30,
+              width: 30,
             ),
           ),
         ],

@@ -1,3 +1,4 @@
+import 'package:flukey_hackathon/common/extensions.dart';
 import 'package:flukey_hackathon/screens/event_detail_screen/event_detail_screen_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,26 +13,28 @@ class HomePageView extends StatefulWidget {
 class _HomePageViewState extends State<HomePageView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            buildTopInfos(context),
-            buildMidInfos(context),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: 15,
-              itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-                  child: buildEventItem(context),
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventDetailScreenView()));
-                  },
-                );
-              },
-            )
-          ],
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              buildTopInfos(context),
+              buildMidInfos(context),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: 15,
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    child: buildEventItem(context),
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventDetailScreenView()));
+                    },
+                  );
+                },
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -41,7 +44,7 @@ class _HomePageViewState extends State<HomePageView> {
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
       child: NeuCard(
-        height: MediaQuery.of(context).size.height * 0.4,
+        height: SizeExtension(context).dynamicHeight(0.4),
         curveType: CurveType.flat,
         bevel: 16,
         color: Colors.green,
@@ -55,8 +58,8 @@ class _HomePageViewState extends State<HomePageView> {
               ),
               child: Image.network(
                 'https://avatars.githubusercontent.com/u/17102578?s=460&u=8d0c2fa492d36b0c109e09d66213e4bd12d8fb6b&v=4',
-                width: MediaQuery.of(context).size.width * 0.4,
-                height: MediaQuery.of(context).size.height * 0.4,
+                height: SizeExtension(context).dynamicHeight(0.4),
+                width: SizeExtension(context).dynamicWidth(0.4),
                 fit: BoxFit.fitHeight,
               ),
             ),
@@ -67,7 +70,7 @@ class _HomePageViewState extends State<HomePageView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.3,
+                    width: SizeExtension(context).dynamicWidth(0.3),
                     child: Text(
                       'Flutter State Management',
                       maxLines: 6,
@@ -77,7 +80,7 @@ class _HomePageViewState extends State<HomePageView> {
                     ),
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.3,
+                    width: SizeExtension(context).dynamicWidth(0.3),
                     child: Text(
                       'A conference about flutter and state management. Feel free to attend. Lorem ipsum and nothing else matter.',
                       maxLines: 6,
@@ -105,8 +108,8 @@ class _HomePageViewState extends State<HomePageView> {
                       ),
                       Row(
                         children: [
-                          Image.asset(
-                            'assets/icons/salary.png',
+                          SvgPicture.asset(
+                            'assets/icons/salary.svg',
                             height: 24,
                             width: 24,
                           ),
@@ -133,8 +136,8 @@ class _HomePageViewState extends State<HomePageView> {
                       ),
                       Row(
                         children: [
-                          Image.asset(
-                            'assets/icons/schedule.png',
+                          SvgPicture.asset(
+                            'assets/icons/schedule.svg',
                             height: 24,
                             width: 24,
                           ),
@@ -157,7 +160,7 @@ class _HomePageViewState extends State<HomePageView> {
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30, top: 40, bottom: 16),
       child: NeuCard(
-        height: MediaQuery.of(context).size.height * 0.2,
+        height: SizeExtension(context).dynamicHeight(0.2),
         curveType: CurveType.flat,
         bevel: 16,
         color: Colors.white,
@@ -187,8 +190,8 @@ class _HomePageViewState extends State<HomePageView> {
                         width: 30,
                       ),
                       Text(
-                        ' : 4',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+                        '  4',
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                       )
                     ],
                   ),
@@ -217,8 +220,8 @@ class _HomePageViewState extends State<HomePageView> {
   NeuCard newCardFirst(BuildContext context, String title, int ticketCount, String assetPath) {
     return NeuCard(
       alignment: Alignment.center,
-      height: MediaQuery.of(context).size.height * 0.15,
-      width: MediaQuery.of(context).size.height * 0.2,
+      height: SizeExtension(context).dynamicHeight(0.15),
+      width: SizeExtension(context).dynamicWidth(0.36),
       curveType: CurveType.flat,
       bevel: 16,
       color: Colors.white,
