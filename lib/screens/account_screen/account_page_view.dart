@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class AccountPageView extends StatefulWidget {
   @override
@@ -8,6 +9,12 @@ class AccountPageView extends StatefulWidget {
 class _AccountPageViewState extends State<AccountPageView> {
   @override
   Widget build(BuildContext context) {
-    return Icon(Icons.settings_applications, color: Colors.red);
+    return Center(
+      child: SvgPicture.asset(
+        'assets/icons/user.svg',
+        height: 30,
+        width: 30,
+      ),
+    );
   }
 }

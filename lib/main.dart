@@ -56,10 +56,8 @@ class SplashState extends State<Splash> {
     var prefs = await SharedPreferences.getInstance();
     var _seen = (prefs.getBool('seen') ?? false);
     if (_seen) {
-      //TODO _seen'i değiştirmeyi unutma
-      await Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) =>
-              LoginScreenView())); //TODO değiştir homepage yap
+      //TODO burada giriş yapılmış mi diye kontrol et
+      await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreenView())); //TODO değiştir homepage yap
     } else {
       await prefs.setBool('seen', true);
       await Navigator.of(context).pushReplacement(

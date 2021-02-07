@@ -3,6 +3,7 @@ import 'package:flukey_hackathon/screens/settings_view/settings_page_view.dart';
 import 'package:flukey_hackathon/services/firebase_service.dart';
 import 'package:flukey_hackathon/services/service_locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'account_screen/account_page_view.dart';
 import 'home_page/home_page_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,16 +15,18 @@ class HomePage extends StatelessWidget {
     return BlocProvider(
       ///FirebaseAuthService provided to AuthenticationBloc
       create: (context) =>
-          AuthenticationBloc(authService: locator<FirebaseAuthService>())
-            ..add(AuthenticationStarted()),
+      AuthenticationBloc(authService: locator<FirebaseAuthService>())
+        ..add(AuthenticationStarted()),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: DefaultTabController(
           initialIndex: 1,
           length: 3,
-          child: Scaffold(
-            bottomNavigationBar: buildBottomTabBar(),
-            body: tabBarBody(),
+          child: SafeArea(
+            child: Scaffold(
+              bottomNavigationBar: buildBottomTabBar(),
+              body: tabBarBody(),
+            ),
           ),
         ),
       ),
@@ -44,6 +47,7 @@ class HomePage extends StatelessWidget {
     return BottomAppBar(
       elevation: 0,
       child: TabBar(
+        indicatorColor: Colors.orange,
         tabs: [
           Tab(
             icon: SvgPicture.asset(
@@ -60,10 +64,10 @@ class HomePage extends StatelessWidget {
             ),
           ),
           Tab(
-            icon: Icon(
-              Icons.account_box_outlined,
-              color: Colors.green,
-              size: 30,
+            icon: SvgPicture.asset(
+              'assets/icons/user.svg',
+              height: 30,
+              width: 30,
             ),
           ),
         ],

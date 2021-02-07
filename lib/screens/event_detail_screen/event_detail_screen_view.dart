@@ -1,3 +1,4 @@
+import 'package:flukey_hackathon/common/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:neumorphic/neumorphic.dart';
@@ -10,12 +11,33 @@ class EventDetailScreenView extends StatefulWidget {
 class _EventDetailScreenViewState extends State<EventDetailScreenView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: ListView(
-          children: <Widget>[
-            buildEventDetails(context),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        bottomNavigationBar: Container(
+          height: SizeExtension(context).dynamicHeight(0.05),
+          width: SizeExtension(context).dynamicWidth(1),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              InkWell(
+                child: Text(
+                  'Return to home page',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  debugPrint('geri dönüldü');
+                },
+              ),
+            ],
+          ),
+        ),
+        body: Container(
+          child: ListView(
+            children: <Widget>[
+              buildEventDetails(context),
+            ],
+          ),
         ),
       ),
     );
@@ -25,7 +47,7 @@ class _EventDetailScreenViewState extends State<EventDetailScreenView> {
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30, top: 30),
       child: NeuCard(
-        height: MediaQuery.of(context).size.height * 0.7,
+        height: SizeExtension(context).dynamicHeight(0.8),
         curveType: CurveType.flat,
         bevel: 16,
         decoration: NeumorphicDecoration(borderRadius: BorderRadius.circular(32), color: Colors.grey.shade100),
@@ -91,8 +113,8 @@ class _EventDetailScreenViewState extends State<EventDetailScreenView> {
                     ),
                     Row(
                       children: [
-                        Image.asset(
-                          'assets/icons/schedule.png',
+                        SvgPicture.asset(
+                          'assets/icons/schedule.svg',
                           height: 24,
                           width: 24,
                         ),
@@ -105,8 +127,8 @@ class _EventDetailScreenViewState extends State<EventDetailScreenView> {
                     ),
                     Row(
                       children: [
-                        Image.asset(
-                          'assets/icons/salary.png',
+                        SvgPicture.asset(
+                          'assets/icons/salary.svg',
                           height: 24,
                           width: 24,
                         ),
@@ -121,7 +143,7 @@ class _EventDetailScreenViewState extends State<EventDetailScreenView> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
+                width: SizeExtension(context).dynamicWidth(0.8),
                 child: Text(
                   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
                   overflow: TextOverflow.clip,
@@ -135,7 +157,7 @@ class _EventDetailScreenViewState extends State<EventDetailScreenView> {
               child: InkWell(
                 child: Container(
                   child: NeuCard(
-                    height: MediaQuery.of(context).size.height * 0.07,
+                    height: SizeExtension(context).dynamicHeight(0.07),
                     curveType: CurveType.flat,
                     decoration: NeumorphicDecoration(borderRadius: BorderRadius.circular(24), color: Colors.grey.shade200),
                     child: Padding(
