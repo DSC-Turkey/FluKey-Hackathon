@@ -18,6 +18,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         bottomSheet: Container(
           height: SizeExtension(context).dynamicHeight(0.05),
           width: SizeExtension(context).dynamicWidth(1),
@@ -37,7 +38,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ],
           ),
         ),
-        resizeToAvoidBottomInset: false,
         body: Container(
           color: Color.fromRGBO(238, 238, 238, 1),
           child: Padding(

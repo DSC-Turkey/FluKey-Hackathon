@@ -7,16 +7,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: DefaultTabController(
-        initialIndex: 1,
-        length: 3,
-        child: SafeArea(
-          child: Scaffold(
-            bottomNavigationBar: buildBottomTabBar(),
-            body: tabBarBody(),
-          ),
+    return DefaultTabController(
+      initialIndex: 1,
+      length: 3,
+      child: SafeArea(
+        child: Scaffold(
+          bottomNavigationBar: buildBottomTabBar(),
+          body: tabBarBody(),
         ),
       ),
     );

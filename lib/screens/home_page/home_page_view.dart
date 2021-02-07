@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flukey_hackathon/common/extensions.dart';
+import 'package:flukey_hackathon/model/event_model.dart';
 import 'package:flukey_hackathon/screens/event_detail_screen/event_detail_screen_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:neumorphic/neumorphic.dart';
 
@@ -11,36 +15,54 @@ class HomePageView extends StatefulWidget {
 }
 
 class _HomePageViewState extends State<HomePageView> {
+  List<EventDetail> eventList = <EventDetail>[];
+  final String localJsonPath = 'assets/data/dummy_datas.json';
+
+  Future<void> loadLocalJson() async {
+    var data = await rootBundle.loadString(localJsonPath);
+    List<dynamic> decodedJson = json.decode(data);
+    eventList = decodedJson.map((user) => EventDetail.fromMap(user)).toList();
+    setState(() {
+      return eventList;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadLocalJson();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(
-            children: <Widget>[
-              buildTopInfos(context),
-              buildMidInfos(context),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: 15,
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    child: buildEventItem(context),
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventDetailScreenView()));
-                    },
-                  );
-                },
-              )
-            ],
+            children: <Widget>[buildTopInfos(context), buildMidInfos(context), listItems(context, eventList)],
           ),
         ),
       ),
     );
   }
 
-  Widget buildEventItem(BuildContext context) {
+  Widget listItems(BuildContext context, List<EventDetail> list) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: eventList.length,
+      itemBuilder: (BuildContext context, int index) {
+        return InkWell(
+          child: buildEventItem(context, eventList[index]),
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventDetailScreenView(eventList[index])));
+          },
+        );
+      },
+    );
+  }
+
+  Widget buildEventItem(BuildContext context, EventDetail eventDetail) {
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
       child: NeuCard(
@@ -57,7 +79,7 @@ class _HomePageViewState extends State<HomePageView> {
                 topRight: Radius.circular(32),
               ),
               child: Image.network(
-                'https://avatars.githubusercontent.com/u/17102578?s=460&u=8d0c2fa492d36b0c109e09d66213e4bd12d8fb6b&v=4',
+                eventDetail.imageLink,
                 height: SizeExtension(context).dynamicHeight(0.4),
                 width: SizeExtension(context).dynamicWidth(0.4),
                 fit: BoxFit.fitHeight,
@@ -72,7 +94,7 @@ class _HomePageViewState extends State<HomePageView> {
                   SizedBox(
                     width: SizeExtension(context).dynamicWidth(0.3),
                     child: Text(
-                      'Flutter State Management',
+                      eventDetail.title,
                       maxLines: 6,
                       overflow: TextOverflow.ellipsis,
                       softWrap: false,
@@ -82,7 +104,7 @@ class _HomePageViewState extends State<HomePageView> {
                   SizedBox(
                     width: SizeExtension(context).dynamicWidth(0.3),
                     child: Text(
-                      'A conference about flutter and state management. Feel free to attend. Lorem ipsum and nothing else matter.',
+                      eventDetail.comment,
                       maxLines: 6,
                       overflow: TextOverflow.ellipsis,
                       softWrap: false,
@@ -100,7 +122,7 @@ class _HomePageViewState extends State<HomePageView> {
                             width: 24,
                           ),
                           SizedBox(width: 3),
-                          Text('Author'),
+                          Text(eventDetail.author),
                         ],
                       ),
                       SizedBox(
@@ -114,7 +136,7 @@ class _HomePageViewState extends State<HomePageView> {
                             width: 24,
                           ),
                           SizedBox(width: 3),
-                          Text('1 Ticket'),
+                          eventDetail.ticket == 0 ? Text('Free') : Text('${eventDetail.ticket} Ticket'),
                         ],
                       ),
                       SizedBox(
@@ -128,7 +150,7 @@ class _HomePageViewState extends State<HomePageView> {
                             width: 24,
                           ),
                           SizedBox(width: 3),
-                          Text('45 Min'),
+                          Text(eventDetail.duration),
                         ],
                       ),
                       SizedBox(
@@ -142,7 +164,7 @@ class _HomePageViewState extends State<HomePageView> {
                             width: 24,
                           ),
                           SizedBox(width: 3),
-                          Text('February, 12'),
+                          Text(eventDetail.date),
                         ],
                       ),
                     ],
@@ -171,7 +193,7 @@ class _HomePageViewState extends State<HomePageView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Elon\nMusk',
+                'Cihat İ.\nDede',
                 textAlign: TextAlign.left,
                 style: TextStyle(fontWeight: FontWeight.w900, fontSize: 32),
               ),
@@ -179,7 +201,7 @@ class _HomePageViewState extends State<HomePageView> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   CircleAvatar(
-                    backgroundImage: NetworkImage('https://ichef.bbci.co.uk/news/640/cpsprodpb/CE17/production/_116395725_55588050.jpg'),
+                    backgroundImage: NetworkImage('https://pbs.twimg.com/profile_images/1334383913788203008/ePY4Pua-_400x400.jpg'),
                     radius: 36,
                   ),
                   Row(
@@ -190,7 +212,7 @@ class _HomePageViewState extends State<HomePageView> {
                         width: 30,
                       ),
                       Text(
-                        '  4',
+                        '  2',
                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                       )
                     ],

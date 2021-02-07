@@ -1,5 +1,6 @@
 import 'package:flukey_hackathon/screens/login_screen/login_screen_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 class OnboardingScreenView extends StatefulWidget {
@@ -19,7 +20,10 @@ class _OnboardingScreenViewState extends State<OnboardingScreenView> {
 
   Widget _buildImage(String assetName) {
     return Align(
-      child: Image.network('http://pngimg.com/uploads/cat/cat_PNG50497.png', width: 350.0),
+      child: SvgPicture.asset(
+        'assets/icons/$assetName.svg',
+        height: 200,
+      ),
       alignment: Alignment.bottomCenter,
     );
   }
@@ -40,22 +44,22 @@ class _OnboardingScreenViewState extends State<OnboardingScreenView> {
       pages: [
         PageViewModel(
           titleWidget: Text(
-            'Yazilar1',
-            style: TextStyle(color: Colors.black, fontSize: 32),
+            'EDUCATION FOR EVERYONE',
+            style: TextStyle(color: Colors.black, fontSize: 30),
             textAlign: TextAlign.center,
           ),
-          body: 'Aciklama 1',
-          image: _buildImage('mining'),
+          body: 'Education is the most powerful weapon which you can use to change the world.\n\nNelson Mandela',
+          image: _buildImage('education'),
           decoration: pageDecoration,
         ),
         PageViewModel(
           titleWidget: Text(
-            'Yazilar2',
-            style: TextStyle(color: Colors.black, fontSize: 32),
+            'NO POVERTY',
+            style: TextStyle(color: Colors.black, fontSize: 30),
             textAlign: TextAlign.center,
           ),
-          body: 'Aciklama 2',
-          image: _buildImage('digital_currency'),
+          body: 'Part of being a person is about helping others.',
+          image: _buildImage('join'),
           decoration: pageDecoration,
         ),
       ],
