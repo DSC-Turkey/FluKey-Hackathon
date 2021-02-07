@@ -6,7 +6,8 @@ extension UserExtension on firebase_auth.User {
   UserModel toUser({String firstName, String lastName}) {
     final userEmpty = UserModel.empty;
 
-    final user = userEmpty.copyWith(firstName: firstName, lastName: lastName, id: uid, email: email);
+    final user = userEmpty.copyWith(
+        firstName: firstName, lastName: lastName, id: uid, email: email);
 
     return user;
   }
@@ -16,6 +17,8 @@ extension SizeExtension on BuildContext {
   double dynamicWidth(double val) => MediaQuery.of(this).size.width * val;
 
   double dynamicHeight(double val) => MediaQuery.of(this).size.height * val;
+
+  Size get currentSize => MediaQuery.of(this).size;
 }
 
 extension NumberExtension on BuildContext {
@@ -28,4 +31,6 @@ extension NumberExtension on BuildContext {
 
 extension PaddingExtension on BuildContext {
   EdgeInsets get paddingAllLow => EdgeInsets.all(lowValue);
+  EdgeInsets get paddingAllMedium => EdgeInsets.all(mediumValue);
+  EdgeInsets get paddingAllLarge => EdgeInsets.all(largeValue);
 }

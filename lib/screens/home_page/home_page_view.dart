@@ -28,7 +28,8 @@ class _HomePageViewState extends State<HomePageView> {
                   return InkWell(
                     child: buildEventItem(context),
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventDetailScreenView()));
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => EventDetailScreenView()));
                     },
                   );
                 },
@@ -48,7 +49,8 @@ class _HomePageViewState extends State<HomePageView> {
         curveType: CurveType.flat,
         bevel: 16,
         color: Colors.green,
-        decoration: NeumorphicDecoration(borderRadius: BorderRadius.circular(32), color: Colors.white),
+        decoration: NeumorphicDecoration(
+            borderRadius: BorderRadius.circular(32), color: Colors.white),
         child: Row(
           children: [
             ClipRRect(
@@ -76,7 +78,10 @@ class _HomePageViewState extends State<HomePageView> {
                       maxLines: 6,
                       overflow: TextOverflow.ellipsis,
                       softWrap: false,
-                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16.0),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.0),
                     ),
                   ),
                   SizedBox(
@@ -86,7 +91,10 @@ class _HomePageViewState extends State<HomePageView> {
                       maxLines: 6,
                       overflow: TextOverflow.ellipsis,
                       softWrap: false,
-                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 12.0),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12.0),
                     ),
                   ),
                   Column(
@@ -164,7 +172,9 @@ class _HomePageViewState extends State<HomePageView> {
         curveType: CurveType.flat,
         bevel: 16,
         color: Colors.white,
-        decoration: NeumorphicDecoration(borderRadius: BorderRadius.circular(24), color: Colors.grey.shade100),
+        decoration: NeumorphicDecoration(
+            borderRadius: BorderRadius.circular(24),
+            color: Colors.grey.shade100),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Row(
@@ -179,7 +189,8 @@ class _HomePageViewState extends State<HomePageView> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   CircleAvatar(
-                    backgroundImage: NetworkImage('https://ichef.bbci.co.uk/news/640/cpsprodpb/CE17/production/_116395725_55588050.jpg'),
+                    backgroundImage: NetworkImage(
+                        'https://ichef.bbci.co.uk/news/640/cpsprodpb/CE17/production/_116395725_55588050.jpg'),
                     radius: 36,
                   ),
                   Row(
@@ -191,7 +202,8 @@ class _HomePageViewState extends State<HomePageView> {
                       ),
                       Text(
                         '  4',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 24),
                       )
                     ],
                   ),
@@ -210,14 +222,17 @@ class _HomePageViewState extends State<HomePageView> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          newCardFirst(context, 'SOLD\nTICKET', 5600, 'assets/icons/increase.svg'),
-          newCardFirst(context, 'HELPED\nPEOPLE', 1234, 'assets/icons/influencer.svg'), //TODO burdaki iconu değiştir
+          newCardFirst(
+              context, 'SOLD\nTICKET', 5600, 'assets/icons/increase.svg'),
+          newCardFirst(context, 'HELPED\nPEOPLE', 1234,
+              'assets/icons/influencer.svg'), //TODO burdaki iconu değiştir
         ],
       ),
     );
   }
 
-  NeuCard newCardFirst(BuildContext context, String title, int ticketCount, String assetPath) {
+  NeuCard newCardFirst(
+      BuildContext context, String title, int ticketCount, String assetPath) {
     return NeuCard(
       alignment: Alignment.center,
       height: SizeExtension(context).dynamicHeight(0.15),
@@ -225,7 +240,8 @@ class _HomePageViewState extends State<HomePageView> {
       curveType: CurveType.flat,
       bevel: 16,
       color: Colors.white,
-      decoration: NeumorphicDecoration(borderRadius: BorderRadius.circular(24), color: Colors.grey.shade100),
+      decoration: NeumorphicDecoration(
+          borderRadius: BorderRadius.circular(24), color: Colors.grey.shade100),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

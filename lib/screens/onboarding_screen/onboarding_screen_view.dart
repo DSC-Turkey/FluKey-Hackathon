@@ -19,7 +19,8 @@ class _OnboardingScreenViewState extends State<OnboardingScreenView> {
 
   Widget _buildImage(String assetName) {
     return Align(
-      child: Image.network('http://pngimg.com/uploads/cat/cat_PNG50497.png', width: 350.0),
+      child: Image.network('http://pngimg.com/uploads/cat/cat_PNG50497.png',
+          width: 350.0),
       alignment: Alignment.bottomCenter,
     );
   }
@@ -73,7 +74,8 @@ class _OnboardingScreenViewState extends State<OnboardingScreenView> {
         Icons.arrow_forward,
         color: Colors.black,
       ),
-      done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black)),
+      done: const Text('Done',
+          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black)),
       dotsDecorator: const DotsDecorator(
         size: Size(10.0, 10.0),
         color: Color(0xFFBDBDBD),

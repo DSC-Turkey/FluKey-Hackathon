@@ -46,3 +46,5 @@ class SignupButtonPressed extends LoginEvent {
   String toString() =>
       'SignupButtonPressed { firstName: $firstName, email: $email }';
 }
+
+class LogoutButtonPressed extends LoginEvent {}

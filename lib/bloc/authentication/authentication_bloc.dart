@@ -15,7 +15,7 @@ class AuthenticationBloc
 
   AuthenticationBloc({@required FirebaseAuthService authService})
       : _authService = authService,
-        super(AuthenticationInitial());
+        super(AuthenticationUnAuthenticated());
 
   @override
   Stream<AuthenticationState> mapEventToState(
@@ -24,12 +24,13 @@ class AuthenticationBloc
     if (event is AuthenticationStarted) {
       final isSignIn = await _authService.isUserSignedIn();
       if (isSignIn) {
-        yield AuthenticationAuthenticated();
+        final user = await _authService.getUser();
+        yield AuthenticationAuthenticated(user: user);
       } else {
-        yield AuthenticationFailure();
+        yield AuthenticationUnAuthenticated();
       }
     } else if (event is AuthenticationLoggedIn) {
-      yield AuthenticationAuthenticated();
+      yield AuthenticationAuthenticated(user: event.user);
     } else if (event is AuthenticationLoggedOut) {
       yield AuthenticationUnAuthenticated();
     }

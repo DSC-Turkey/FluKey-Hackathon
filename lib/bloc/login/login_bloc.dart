@@ -8,13 +8,16 @@ import 'package:flukey_hackathon/services/firebase_service.dart';
 import 'package:flutter/foundation.dart';
 
 part 'login_event.dart';
+
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final FirebaseAuthService _authService;
   final AuthenticationBloc _authBloc;
 
-  LoginBloc(FirebaseAuthService authService, AuthenticationBloc authBloc)
+  LoginBloc(
+      {@required FirebaseAuthService authService,
+      @required AuthenticationBloc authBloc})
       : _authService = authService,
         _authBloc = authBloc,
         super(LoginInitial());
@@ -29,18 +32,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         final user = await _authService.signIn(
             email: event.email, password: event.password);
         _authBloc.add(AuthenticationLoggedIn(user: user));
-        yield LoginInitial();
-      } on LogInWithEmailFailure catch (e) {
-        LoginFailure(error: e.toString());
+        yield SignupSuccess();
+      } on LogInWithEmailFailure {
+        yield LoginFailure(error: 'Email or password is invalid.');
       }
     } else if (event is GoogleButtonPressed) {
       try {
         yield LoginLoading();
         final user = await _authService.singInWithGoogle();
         _authBloc.add(AuthenticationLoggedIn(user: user));
-        yield LoginInitial();
-      } on LogInWithGoogleFailure catch (e) {
-        LoginFailure(error: e.toString());
+        yield SignupSuccess();
+      } on LogInWithGoogleFailure {
+        yield LoginFailure(error: 'Google sign in is failed.');
       }
     } else if (event is SignupButtonPressed) {
       try {
@@ -52,9 +55,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           password: event.password,
         );
         _authBloc.add(AuthenticationLoggedIn(user: user));
-        yield LoginInitial();
+        yield SignupSuccess();
       } on SignUpFailure catch (e) {
-        LoginFailure(error: e.toString());
+        yield LoginFailure(error: e.toString());
+      }
+    } else if (event is LogoutButtonPressed) {
+      try {
+        await _authService.logOut();
+        _authBloc.add(AuthenticationLoggedOut());
+        yield LogOutState();
+      } on LogOutFailure catch (e) {
+        yield LoginFailure(error: e.toString());
       }
     }
   }

@@ -1,13 +1,18 @@
 import 'dart:async';
 
-import 'package:flukey_hackathon/screens/home_page.dart';
+import 'package:bloc/bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flukey_hackathon/bloc/authentication/authentication_bloc.dart';
 import 'package:flukey_hackathon/screens/login_screen/login_screen_view.dart';
 import 'package:flukey_hackathon/screens/onboarding_screen/onboarding_screen_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'bloc/login/login_bloc.dart';
+import 'screens/authentication_screen.dart';
+import 'services/firebase_service.dart';
 import 'services/service_locator.dart';
-import 'package:bloc/bloc.dart';
 
 class SimpleBlocObserver extends BlocObserver {
   @override
@@ -30,7 +35,10 @@ class SimpleBlocObserver extends BlocObserver {
 }
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   Bloc.observer = SimpleBlocObserver();
+
   setupLocator();
   runApp(MyApp());
 }
@@ -38,10 +46,25 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Hackathon',
-      debugShowCheckedModeBanner: false,
-      home: Splash(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AuthenticationBloc(
+            authService: locator<FirebaseAuthService>(),
+          )..add(AuthenticationStarted()),
+        ),
+        BlocProvider(
+          create: (context) => LoginBloc(
+            authBloc: context.read<AuthenticationBloc>(),
+            authService: locator<FirebaseAuthService>(),
+          ),
+        )
+      ],
+      child: MaterialApp(
+        title: 'Flutter Hackathon',
+        debugShowCheckedModeBanner: false,
+        home: Splash(),
+      ),
     );
   }
 }
@@ -56,12 +79,15 @@ class SplashState extends State<Splash> {
     var prefs = await SharedPreferences.getInstance();
     var _seen = (prefs.getBool('seen') ?? false);
     if (_seen) {
-      //TODO burada giriş yapılmış mi diye kontrol et
-      await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreenView())); //TODO değiştir homepage yap
+      await Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => AuthenticationScreen()));
     } else {
       await prefs.setBool('seen', true);
       await Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => OnboardingScreenView()));
+        MaterialPageRoute(
+          builder: (context) => OnboardingScreenView(),
+        ),
+      );
     }
   }
 
